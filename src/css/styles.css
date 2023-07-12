@@ -7,23 +7,29 @@
 body {
 	background-color: var(--darkgrey);
 	color: var(--offwhite);
-}
-
-#info, #bottom {
 	text-align: center;
 }
 
-#board {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.subtitle {
+	font-style: italic;
 }
 
-.row {
+.flex-grid {
+	display: flex;
+	flex-direction: row;
+	padding: 0px 10px 0px 20px;
+	justify-content: center;
+}
+
+.flex-item {
+	padding-right: 20px;
+}
+
+.board-row {
 	display: flex;
 }
 
-.cell {
+.board-cell {
 	border: none;
 	width: 80px;
 	height: 80px;
@@ -36,54 +42,82 @@ body {
 	background-color: var(--darkgrey);
 }
 
-.cell:active {
+.board-cell:focus {
 	outline: none;
 }
 
-#A1 {
+#gameplay {
+	display: none;
+}
+
+#gameOver {
+	display: none;
+}
+
+#board {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#options {
+	border: solid;
+	border-width: 2px;
+	border-radius: 20px;
+	border-color: var(--offwhite);
+	width: 50%;
+	margin-left: 25%;
+	padding-bottom: 20px;
+}
+
+#options > .flex-grid > .flex-item > input {
+	width: 35px;
+}
+
+#board-row-A1 {
 	border-bottom: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 }
 
-#A2 {
+#board-row-A2 {
 	border-bottom: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }
 
-#A3 {
+#board-row-A3 {
 	border-bottom: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }
 
-#B1 {
+#board-row-B1 {
 	border-top: 1px solid var(--offwhite);
 	border-bottom: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 }
 
-#B2 {
+#board-row-B2 {
 	border: 1px solid var(--offwhite);
 }
 
-#B3 {
+#board-row-B3 {
 	border-top: 1px solid var(--offwhite);
 	border-bottom: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }
 
-#C1 {
+#board-row-C1 {
 	border-top: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 }
 
-#C2 {
+#board-row-C2 {
 	border-top: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite)y;
 }
 
-#C3 {
+#board-row-C3 {
 	border-top: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }

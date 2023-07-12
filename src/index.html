@@ -2,40 +2,49 @@
 <html>
 
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tic Tac Toe</title>
 </head>
 
 <body>
-	<div id="info">
-		<h1>TIC TAC TOE</h1>
-		<p>
-			To start, just click in any square.
-			You will be X's, AI will be O's.
-		</p>
+	<h1>TIC TAC TOE</h1>
+	<div id="gameSetup">
+		<!-- Game description -->
+		<div class="subtitle">
+			<p>TODO: Overly witty description of game</p>
+		</div>
+		<!-- Options -->
+		<div id="options">
+			<h4>Game options</h4>
+			<div class="flex-grid">
+				<div class="flex-item">
+					<label for="startingPlayer">Starting Player</label>
+					<br>
+					<select id="startingPlayer">
+						<option value="random">Random</option>
+						<option value="PLAYER">You</option>
+						<option value="AI">AI</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<br>
+		<!-- Below options -->
+		<button type="submit" onclick="setupGame()">Play!</button>
 	</div>
-	<div id="board">
-		<div class="row">
-			<input type="text" id="A1" class="cell" readonly>
-			<input type="text" id="A2" class="cell" readonly>
-			<input type="text" id="A3" class="cell" readonly>
+	<div id="gameplay">
+		<!-- Summary -->
+		<div>
+			<p class="subtitle">The game</p>
 		</div>
-		<div class="row">
-			<input type="text" id="B1" class="cell" readonly>
-			<input type="text" id="B2" class="cell" readonly>
-			<input type="text" id="B3" class="cell" readonly>
-		</div>
-		<div class="row">
-			<input type="text" id="C1" class="cell" readonly>
-			<input type="text" id="C2" class="cell" readonly>
-			<input type="text" id="C3" class="cell" readonly>
+		<!-- Board -->
+		<div id="board">
+			<div id="board-rows">
+				<!-- This is generated at runtime -->
+			</div>
 		</div>
 	</div>
-	<br><br>
-	<div id="bottom">
-		<button id="reset">
-			Restart
-		</button>
+	<div id="gameOver">
+		<p>TODO</p>
 	</div>
 </body>
 
