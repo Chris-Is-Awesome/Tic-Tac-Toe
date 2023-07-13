@@ -76,50 +76,50 @@ body {
 	width: 35px;
 }
 
-#board-cell-A1 {
+#board-cell-1_1 {
 	border-bottom: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 }
 
-#board-cell-A2 {
+#board-cell-1_2 {
 	border-bottom: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }
 
-#board-cell-A3 {
+#board-cell-1_3 {
 	border-bottom: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }
 
-#board-cell-B1 {
+#board-cell-2_1 {
 	border-top: 1px solid var(--offwhite);
 	border-bottom: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 }
 
-#board-cell-B2 {
+#board-cell-2_2 {
 	border: 1px solid var(--offwhite);
 }
 
-#board-cell-B3 {
+#board-cell-2_3 {
 	border-top: 1px solid var(--offwhite);
 	border-bottom: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }
 
-#board-cell-C1 {
+#board-cell-3_1 {
 	border-top: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 }
 
-#board-cell-C2 {
+#board-cell-3_2 {
 	border-top: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }
 
-#board-cell-C3 {
+#board-cell-3_3 {
 	border-top: 1px solid var(--offwhite);
 	border-left: 1px solid var(--offwhite);
 }

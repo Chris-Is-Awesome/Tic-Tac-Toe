@@ -9,15 +9,17 @@ export default class UI {
 }
 
 class Cell {
-	constructor(element, cellName) {
+	constructor(element) {
 		this.element = element;
-		this.name = cellName;
+		this.row = element.id.substr(element.id.lastIndexOf('-') + 1, (element.id.indexOf('_') - (element.id.lastIndexOf('-') + 1)));
+		this.col = element.id.substr(element.id.indexOf('_') + 1, element.id.length - (element.id.indexOf('_') + 1));
 		this.whoChecked = null;
 		this.weight = 0;
 	}
 }
 
 const cells = [];
+const grid = [];
 
 // Toggles what part of the game is shown at start
 function initializeUI() {
@@ -38,45 +40,29 @@ function initializeUI() {
 // Creates the game board
 function createBoard() {
 	const board = document.getElementById('board-rows');
-	let rows = [];
 
 	// Create rows
-	for (let i = 0; i < 3; i++) {
+	for (let i = 1; i < 4; i++) {
 		const row = document.createElement('div');
 		row.className = "board-row";
 		board.appendChild(row);
-		rows.push(row);
-	}
-
-	// Get row letter
-	for (let j = 0; j < rows.length; j++) {
-		let rowLetter = 'A';
-
-		switch (j) {
-			case 1:
-				rowLetter = 'B';
-				break;
-			case 2:
-				rowLetter = 'C';
-				break;
-			default:
-				rowLetter = 'A';
-		}
 
 		// Create cells
-		for (let k = 1; k < 4; k++) {
-			const row = rows[j];
+		for (let j = 1; j < 4; j++) {
 			const cell = document.createElement('div');
-			const cellName = `${rowLetter}${k}`;
-			cell.id = `board-cell-${cellName}`;
+			cell.id = `board-cell-${i}_${j}`;
 			cell.className = "board-cell";
-			cell.onclick = function(button) {
+			cell.onclick = function (button) {
 				cellClicked(button.originalTarget);
 			}
 			row.appendChild(cell);
-			cells.push(new Cell(cell, cellName));
+			const cellObj = new Cell(cell);
+			cells.push(cellObj);
+			grid.push([{row: cellObj.row, col: cellObj.col}, cellObj]);
 		}
 	}
+
+	console.table(grid);
 }
 
 // Runs when a cell is clicked
@@ -96,5 +82,26 @@ function cellClicked(cellElement) {
 	}
 
 	cellElement.appendChild(img);
-	changeTurns();
+	const gameResult = hasGameEnded(cell);
+
+	// Check if game has ended
+	if (!gameResult.winner) {
+		changeTurns();
+	} else {
+		console.log("Game has ended!");
+	}
+}
+
+function hasGameEnded(cell) {
+	const result = {
+		winner: null
+	}
+
+	// Logic - get the 8 adjacent cells & check their data
+	// Then add -1, 0, and 1 to each number to get adjacent cells
+	// If an adjacent cell is marked by same player, check next one over (don't check all adjacent of that cell)
+
+	//
+
+	return result;
 }
