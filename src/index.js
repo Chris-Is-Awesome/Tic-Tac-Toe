@@ -1,4 +1,5 @@
 import Game from './game.js';
+import UI from './ui.js';
 import './css/styles.css';
 
 function setupGame() {
@@ -10,6 +11,7 @@ function setupGame() {
 	};
 
 	// Create game object & setup game
+	const ui = new UI();
 	const game = new Game(options);
 }
 

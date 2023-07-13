@@ -1,18 +1,20 @@
-import { initializeUI } from './ui.js';
-
 export default class Game {
 	constructor(options) {
 		currentStats.currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer
 
-		initializeUI();	
 		console.log("Game started! Starting stats:\n", currentStats);
 		startGame();
 	}
 }
 
-const currentStats = {
+export const currentStats = {
 	currentPlayer: null
 };
+
+export function changeTurns() {
+	currentStats.currentPlayer = currentStats.currentPlayer === "AI" ? "PLAYER" : "AI";
+	console.log(`Turns have changed! Current turn: ${currentStats.currentPlayer}`);
+}
 
 // Returns a random starting player
 function getRandomStartingPlayer() {
@@ -26,5 +28,5 @@ function getRandomStartingPlayer() {
 }
 
 function startGame() {
-	//
+	console.log(currentStats.currentPlayer);
 }

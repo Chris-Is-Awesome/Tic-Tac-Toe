@@ -1,5 +1,16 @@
+import circle from './assets/img/circle.png';
+import cross from './assets/img/cross.png';
+import { currentStats, changeTurns } from './game.js';
+
+export default class UI {
+	constructor() {
+		initializeUI();
+	}
+}
+
 class Cell {
-	constructor(cellName) {
+	constructor(element, cellName) {
+		this.element = element;
 		this.name = cellName;
 		this.whoChecked = null;
 		this.weight = 0;
@@ -9,7 +20,7 @@ class Cell {
 const cells = [];
 
 // Toggles what part of the game is shown at start
-export function initializeUI() {
+function initializeUI() {
 	console.log("Initializing UI...");
 
 	const gameSetupDiv = document.getElementById('gameSetup');
@@ -55,13 +66,35 @@ function createBoard() {
 		// Create cells
 		for (let k = 1; k < 4; k++) {
 			const row = rows[j];
-			const cell = document.createElement('input');
+			const cell = document.createElement('div');
 			const cellName = `${rowLetter}${k}`;
-			cell.type = "text";
 			cell.id = `board-cell-${cellName}`;
 			cell.className = "board-cell";
+			cell.onclick = function(button) {
+				cellClicked(button.originalTarget);
+			}
 			row.appendChild(cell);
-			cells.push(new Cell(cellName));
+			cells.push(new Cell(cell, cellName));
 		}
 	}
+}
+
+// Runs when a cell is clicked
+function cellClicked(cellElement) {
+	const cell = cells.find(x => x.element === cellElement);
+	console.log(`${currentStats.currentPlayer} selected cell ${cell.name}`);
+
+	const img = document.createElement('img');
+	img.className = "cell-image";
+	
+	if (currentStats.currentPlayer === "AI") {
+		img.src = cross;
+		img.alt = "Cross";
+	} else {
+		img.src = circle;
+		img.alt = "Circle";
+	}
+
+	cellElement.appendChild(img);
+	changeTurns();
 }

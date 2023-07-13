@@ -36,14 +36,16 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 24px;
-	text-align: center;
 	cursor: pointer;
-	background-color: var(--darkgrey);
 }
 
 .board-cell:focus {
 	outline: none;
+}
+
+.cell-image {
+	width: 80%;
+	height: 80%;
 }
 
 #gameplay {
@@ -114,7 +116,7 @@ body {
 #board-cell-C2 {
 	border-top: 1px solid var(--offwhite);
 	border-right: 1px solid var(--offwhite);
-	border-left: 1px solid var(--offwhite)y;
+	border-left: 1px solid var(--offwhite);
 }
 
 #board-cell-C3 {
