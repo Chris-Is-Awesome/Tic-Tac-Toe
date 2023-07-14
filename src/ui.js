@@ -17,6 +17,7 @@ class Cell {
 }
 
 let board;
+let gameEndResult;
 
 // Toggles what part of the game is shown at start
 function initializeUI() {
@@ -65,6 +66,11 @@ function createBoard() {
 }
 
 function cellClicked(cellElement, cellObj) {
+	// Don't reclick the cell and don't allow clicking if game is over
+	if (cellObj.checkedBy != null || (gameEndResult != null && gameEndResult.hasEnded)) {
+		return;
+	}
+
 	console.log(`[GAME] Cell (${cellObj.row}, ${cellObj.col}) checked by ${currentStats.currentPlayer}!`);
 	cellObj.checkedBy = currentStats.currentPlayer;
 
@@ -83,7 +89,7 @@ function cellClicked(cellElement, cellObj) {
 	cellElement.appendChild(img);
 
 	// Change turns or end game
-	const gameEndResult = hasGameEnded();
+	gameEndResult = hasGameEnded();
 
 	if (!gameEndResult.hasEnded) {
 		changeTurns();
