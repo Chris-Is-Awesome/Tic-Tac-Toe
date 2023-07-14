@@ -1,18 +1,16 @@
 export default class Game {
 	constructor(options) {
-		currentStats.currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer
+		currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer
 
-		console.log("Game started! Starting stats:\n", currentStats);
-		startGame();
+		console.log(`[GAME] Game started! Starting player: ${currentPlayer}\n--------------------------------------------------`);
 	}
 }
 
-export const currentStats = {
-	currentPlayer: null
-};
+export let currentPlayer;
 
+// Swaps the players' turns
 export function changeTurns() {
-	currentStats.currentPlayer = currentStats.currentPlayer === "AI" ? "PLAYER" : "AI";
+	currentPlayer = currentPlayer === "AI" ? "PLAYER" : "AI";
 }
 
 // Returns a random starting player
@@ -24,8 +22,4 @@ function getRandomStartingPlayer() {
 	}
 
 	return "AI";
-}
-
-function startGame() {
-	console.log(currentStats.currentPlayer);
 }

@@ -1,6 +1,6 @@
 import circle from './assets/img/circle.png';
 import cross from './assets/img/cross.png';
-import { currentStats, changeTurns } from './game.js';
+import { currentPlayer, changeTurns } from './game.js';
 
 export default class UI {
 	constructor() {
@@ -21,19 +21,15 @@ let gameEndResult;
 
 // Toggles what part of the game is shown at start
 function initializeUI() {
-	console.log("[SETUP] Initializing UI...");
-
 	const gameSetupDiv = document.querySelector('#gameSetup');
 	const gameplayDiv = document.querySelector('#gameplay');
 
 	createBoard();
-	document.querySelector('#currentPlayer').textContent = `${currentStats.currentPlayer}'s turn`;
+	document.querySelector('#currentPlayer').textContent = `${currentPlayer}'s turn`;
 
 	// Toggle visibility
 	gameSetupDiv.style.display = "none";
 	gameplayDiv.style.display = "block";
-
-	console.log("[SETUP] ...Done!");
 }
 
 // Creates the game board
@@ -65,20 +61,21 @@ function createBoard() {
 	}
 }
 
+// Runs when a cell is clicked
 function cellClicked(cellElement, cellObj) {
 	// Don't reclick the cell and don't allow clicking if game is over
 	if (cellObj.checkedBy != null || (gameEndResult != null && gameEndResult.hasEnded)) {
 		return;
 	}
 
-	console.log(`[GAME] Cell (${cellObj.row}, ${cellObj.col}) checked by ${currentStats.currentPlayer}!`);
-	cellObj.checkedBy = currentStats.currentPlayer;
+	console.log(`[GAME] Cell (${cellObj.row}, ${cellObj.col}) checked by ${currentPlayer}!`);
+	cellObj.checkedBy = currentPlayer;
 
 	// Show image
 	const img = document.createElement('img');
 	img.setAttribute("class", "cell-image");
 
-	if (currentStats.currentPlayer === "AI") {
+	if (currentPlayer === "AI") {
 		img.src = cross;
 		img.alt = "Cross";
 	} else {
@@ -93,7 +90,7 @@ function cellClicked(cellElement, cellObj) {
 
 	if (!gameEndResult.hasEnded) {
 		changeTurns();
-		document.querySelector('#currentPlayer').textContent = `${currentStats.currentPlayer}'s turn`;
+		document.querySelector('#currentPlayer').textContent = `${currentPlayer}'s turn`;
 	} else {
 		const divider = "--------------------------------------------------";
 		if (gameEndResult.isDraw) {
@@ -104,6 +101,7 @@ function cellClicked(cellElement, cellObj) {
 	}
 }
 
+// Checks for if the game has ended and returns the result
 function hasGameEnded() {
 	const result = {
 		hasEnded: hasMatchInRow() || hasMatchInCol() || hasMatchInDiag(),
@@ -112,7 +110,7 @@ function hasGameEnded() {
 	};
 
 	if (result.hasEnded) {
-		result.winner = currentStats.currentPlayer;
+		result.winner = currentPlayer;
 	} else {
 		result.isDraw = isDraw();
 		result.hasEnded = result.isDraw;
@@ -121,6 +119,7 @@ function hasGameEnded() {
 	return result;
 }
 
+// Checks for row match
 function hasMatchInRow() {
 	for (let i = 0; i < board.length; i++) {
 		if (
@@ -135,6 +134,7 @@ function hasMatchInRow() {
 	return false;
 }
 
+// Checks for column match
 function hasMatchInCol() {
 	for (let i = 0; i < board[0].length; i++) {
 		if (
@@ -149,6 +149,7 @@ function hasMatchInCol() {
 	return false;
 }
 
+// Checks for diagonal match
 function hasMatchInDiag() {
 	if (
 		board[0][0].checkedBy !== null &&
@@ -169,6 +170,7 @@ function hasMatchInDiag() {
 	return false;
 }
 
+// Checks for draw
 function isDraw() {
 	for (let i = 0; i < board.length; i++) {
 		for (let j = 0; j < board[i].length; j++) {
