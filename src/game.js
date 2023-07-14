@@ -13,7 +13,6 @@ export const currentStats = {
 
 export function changeTurns() {
 	currentStats.currentPlayer = currentStats.currentPlayer === "AI" ? "PLAYER" : "AI";
-	console.log(`Turns have changed! Current turn: ${currentStats.currentPlayer}`);
 }
 
 // Returns a random starting player

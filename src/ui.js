@@ -9,70 +9,69 @@ export default class UI {
 }
 
 class Cell {
-	constructor(element) {
-		this.element = element;
-		this.row = element.id.substr(element.id.lastIndexOf('-') + 1, (element.id.indexOf('_') - (element.id.lastIndexOf('-') + 1)));
-		this.col = element.id.substr(element.id.indexOf('_') + 1, element.id.length - (element.id.indexOf('_') + 1));
-		this.whoChecked = null;
-		this.weight = 0;
+	constructor(row, col) {
+		this.row = row;
+		this.col = col;
+		this.checkedBy = null;
 	}
 }
 
-const cells = [];
-const grid = [];
+let board;
 
 // Toggles what part of the game is shown at start
 function initializeUI() {
-	console.log("Initializing UI...");
+	console.log("[SETUP] Initializing UI...");
 
-	const gameSetupDiv = document.getElementById('gameSetup');
-	const gameplayDiv = document.getElementById('gameplay');
+	const gameSetupDiv = document.querySelector('#gameSetup');
+	const gameplayDiv = document.querySelector('#gameplay');
 
 	createBoard();
+	document.querySelector('#currentPlayer').textContent = `${currentStats.currentPlayer}'s turn`;
 
 	// Toggle visibility
 	gameSetupDiv.style.display = "none";
 	gameplayDiv.style.display = "block";
 
-	console.log("...Done!");
+	console.log("[SETUP] ...Done!");
 }
 
 // Creates the game board
 function createBoard() {
-	const board = document.getElementById('board-rows');
+	const boardElement = document.querySelector('#board');
+	const boardSize = 3;
+	board = new Array(boardSize);
 
-	// Create rows
-	for (let i = 1; i < 4; i++) {
-		const row = document.createElement('div');
-		row.className = "board-row";
-		board.appendChild(row);
-
-		// Create cells
-		for (let j = 1; j < 4; j++) {
-			const cell = document.createElement('div');
-			cell.id = `board-cell-${i}_${j}`;
-			cell.className = "board-cell";
-			cell.onclick = function (button) {
-				cellClicked(button.originalTarget);
-			}
-			row.appendChild(cell);
-			const cellObj = new Cell(cell);
-			cells.push(cellObj);
-			grid.push([{row: cellObj.row, col: cellObj.col}, cellObj]);
-		}
+	for (let i = 0; i < boardSize; i++) {
+		board[i] = new Array(boardSize);
 	}
 
-	console.table(grid);
+	for (let i = 0; i < board.length; i++) {
+		const row = document.createElement('div');
+		row.setAttribute("class", "board-row");
+		boardElement.appendChild(row);
+
+		for (let j = 0; j < boardSize; j++) {
+			const cell = document.createElement('div');
+			const cellObj = new Cell(i + 1, j + 1);
+			cell.setAttribute("id", `board-cell-${i+1}_${j+1}`);
+			cell.setAttribute("class", "board-cell");
+			cell.onclick = function (button) {
+				cellClicked(button.originalTarget, cellObj);
+			};
+			board[i][j] = cellObj;
+			row.appendChild(cell);
+		}
+	}
 }
 
-// Runs when a cell is clicked
-function cellClicked(cellElement) {
-	const cell = cells.find(x => x.element === cellElement);
-	console.log(`${currentStats.currentPlayer} selected cell ${cell.name}`);
+function cellClicked(cellElement, cellObj) {
+	console.log(`[GAME] Cell (${cellObj.row}, ${cellObj.col}) checked by ${currentStats.currentPlayer}!`);
+	cellObj.checkedBy = currentStats.currentPlayer;
 
+	// Show image
 	const img = document.createElement('img');
-	img.className = "cell-image";
-	
+	img.setAttribute("class", "cell-image");
+
 	if (currentStats.currentPlayer === "AI") {
 		img.src = cross;
 		img.alt = "Cross";
@@ -82,26 +81,96 @@ function cellClicked(cellElement) {
 	}
 
 	cellElement.appendChild(img);
-	const gameResult = hasGameEnded(cell);
 
-	// Check if game has ended
-	if (!gameResult.winner) {
+	// Change turns or end game
+	const gameEndResult = hasGameEnded();
+
+	if (!gameEndResult.hasEnded) {
 		changeTurns();
+		document.querySelector('#currentPlayer').textContent = `${currentStats.currentPlayer}'s turn`;
 	} else {
-		console.log("Game has ended!");
+		const divider = "--------------------------------------------------";
+		if (gameEndResult.isDraw) {
+			console.log(divider + "\n[GAME] Game has ended in a draw! No one wins.\n" + divider);
+		} else {
+			console.log(`${divider}\n[GAME] Game has ended! ${gameEndResult.winner} won!\n${divider}`);
+		}
 	}
 }
 
-function hasGameEnded(cell) {
+function hasGameEnded() {
 	const result = {
+		hasEnded: hasMatchInRow() || hasMatchInCol() || hasMatchInDiag(),
+		isDraw: false,
 		winner: null
+	};
+
+	if (result.hasEnded) {
+		result.winner = currentStats.currentPlayer;
+	} else {
+		result.isDraw = isDraw();
+		result.hasEnded = result.isDraw;
 	}
 
-	// Logic - get the 8 adjacent cells & check their data
-	// Then add -1, 0, and 1 to each number to get adjacent cells
-	// If an adjacent cell is marked by same player, check next one over (don't check all adjacent of that cell)
-
-	//
-
 	return result;
+}
+
+function hasMatchInRow() {
+	for (let i = 0; i < board.length; i++) {
+		if (
+			board[i][0].checkedBy !== null &&
+			board[i][0].checkedBy === board[i][1].checkedBy &&
+			board[i][1].checkedBy === board[i][2].checkedBy
+		) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+function hasMatchInCol() {
+	for (let i = 0; i < board[0].length; i++) {
+		if (
+			board[0][i].checkedBy !== null &&
+			board[0][i].checkedBy === board[1][i].checkedBy &&
+			board[1][i].checkedBy === board[2][i].checkedBy
+		) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+function hasMatchInDiag() {
+	if (
+		board[0][0].checkedBy !== null &&
+		board[0][0].checkedBy === board[1][1].checkedBy &&
+		board[1][1].checkedBy === board[2][2].checkedBy
+	) {
+		return true;
+	}
+
+	if (
+		board[0][2].checkedBy !== null &&
+		board[0][2].checkedBy === board[1][1].checkedBy &&
+		board[1][1].checkedBy === board[2][0].checkedBy
+	) {
+		return true;
+	}
+
+	return false;
+}
+
+function isDraw() {
+	for (let i = 0; i < board.length; i++) {
+		for (let j = 0; j < board[i].length; j++) {
+			if (board[i][j].checkedBy === null) {
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
