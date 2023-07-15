@@ -9,12 +9,12 @@
 	<h1>TIC TAC TOE</h1>
 	<div id="gameSetup">
 		<!-- Game description -->
-		<div class="subtitle">
+		<div class="emphasizedText">
 			<p>TODO: Overly witty description of game</p>
 		</div>
 		<!-- Options -->
 		<div id="options">
-			<h4>Game options</h4>
+			<h4>Game Options</h4>
 			<div class="flex-grid">
 				<div class="flex-item">
 					<label for="startingPlayer">Starting Player</label>
@@ -32,15 +32,14 @@
 		<button type="submit" onclick="setupGame()">Play!</button>
 	</div>
 	<div id="gameplay">
-		<!-- Summary -->
-		<div>
-			<p class="subtitle">The game</p>
-		</div>
 		<!-- Board -->
 		<div id="board">
-			<div id="board-rows">
-				<!-- This is generated at runtime -->
-			</div>
+			<!-- This is generated at runtime -->
+		</div>
+		<!-- Summary -->
+		<div>
+			<h3 id="currentPlayer"></h3>
+			<p class="subtitle">TODO: Turn summary announced like an overly dramatic sports commentator</p>
 		</div>
 	</div>
 	<div id="gameOver">

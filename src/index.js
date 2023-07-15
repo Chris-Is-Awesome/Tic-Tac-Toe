@@ -11,8 +11,8 @@ function setupGame() {
 	};
 
 	// Create game object & setup game
-	const ui = new UI();
 	const game = new Game(options);
+	const ui = new UI();
 }
 
 window.setupGame = setupGame;
