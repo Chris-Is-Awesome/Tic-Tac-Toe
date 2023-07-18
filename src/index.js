@@ -1,18 +1,15 @@
-import Game from './game.js';
 import UI from './ui.js';
 import './css/styles.css';
 
+let ui;
+
 function setupGame() {
-	const startingPlayer = document.getElementById('startingPlayer').value;
+	ui = new UI();
+}
 
-	// Create options object
-	const options = {
-		startingPlayer: startingPlayer
-	};
-
-	// Create game object & setup game
-	const game = new Game(options);
-	const ui = new UI();
+function restartGame() {
+	ui.resetGameUI();
 }
 
 window.setupGame = setupGame;
+window.restartGame = restartGame;

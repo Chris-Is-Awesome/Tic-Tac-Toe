@@ -1,15 +1,25 @@
+import Game, { GameHelper } from './game.js';
 import circle from './assets/img/circle.png';
 import cross from './assets/img/cross.png';
-import { currentPlayer, changeTurns } from './game.js';
 
 export default class UI {
 	constructor() {
-		initializeUI();
+		initializeUIAndGame();
+	}
+
+	resetGameUI() {
+		// Remove board
+		const board = document.querySelector("#board").innerHTML = "";
+
+		// Toggle options visibility
+		document.querySelector("#gameSetup").style.display = "block";
+		document.querySelector("#gameplay").style.display = "none";
 	}
 }
 
 class Cell {
-	constructor(row, col) {
+	constructor(element, row, col) {
+		this.element = element;
 		this.row = row;
 		this.col = col;
 		this.checkedBy = null;
@@ -17,19 +27,20 @@ class Cell {
 }
 
 let board;
-let gameEndResult;
 
 // Toggles what part of the game is shown at start
-function initializeUI() {
-	const gameSetupDiv = document.querySelector('#gameSetup');
-	const gameplayDiv = document.querySelector('#gameplay');
+function initializeUIAndGame() {
+	// Create options object
+	const options = {
+		startingPlayer: document.getElementById('startingPlayer').value
+	};
 
 	createBoard();
-	document.querySelector('#currentPlayer').textContent = `${currentPlayer}'s turn`;
+	new Game(options);
 
 	// Toggle visibility
-	gameSetupDiv.style.display = "none";
-	gameplayDiv.style.display = "block";
+	document.querySelector("#gameSetup").style.display = "none";
+	document.querySelector("#gameplay").style.display = "block";
 }
 
 // Creates the game board
@@ -49,11 +60,11 @@ function createBoard() {
 
 		for (let j = 0; j < boardSize; j++) {
 			const cell = document.createElement('div');
-			const cellObj = new Cell(i + 1, j + 1);
+			const cellObj = new Cell(cell, i + 1, j + 1);
 			cell.setAttribute("id", `board-cell-${i+1}_${j+1}`);
 			cell.setAttribute("class", "board-cell");
-			cell.onclick = function (button) {
-				cellClicked(button.originalTarget, cellObj);
+			cell.onclick = function () {
+				GameHelper.cellClicked(cellObj);
 			};
 			board[i][j] = cellObj;
 			row.appendChild(cell);
@@ -61,124 +72,38 @@ function createBoard() {
 	}
 }
 
-// Runs when a cell is clicked
-function cellClicked(cellElement, cellObj) {
-	// Don't reclick the cell and don't allow clicking if game is over
-	if (cellObj.checkedBy != null || (gameEndResult != null && gameEndResult.hasEnded)) {
-		return;
-	}
+export const UIHelper = {
+	// Returns the board (GET only accessor)
+	getBoard: function () {
+		return board;
+	},
 
-	console.log(`[GAME] Cell (${cellObj.row}, ${cellObj.col}) checked by ${currentPlayer}!`);
-	cellObj.checkedBy = currentPlayer;
+	// Marks the given cell as selected
+	selectCell: function(cell, selectedBy) {
+		console.log(`[GAME] Cell (${cell.row}, ${cell.col}) selected by ${selectedBy}!`);
+		cell.checkedBy = selectedBy;
 
-	// Show image
-	const img = document.createElement('img');
-	img.setAttribute("class", "cell-image");
+		// Show image
+		const img = document.createElement("img");
+		img.setAttribute("class", "cell-image");
+		img.setAttribute("src", selectedBy === "AI" ? cross : circle);
+		img.setAttribute("alt", selectedBy === "AI" ? "Cross" : "Circle");
+		cell.element.appendChild(img);
+	},
 
-	if (currentPlayer === "AI") {
-		img.src = cross;
-		img.alt = "Cross";
-	} else {
-		img.src = circle;
-		img.alt = "Circle";
-	}
+	// Updates current player UI
+	playersChanged: function(currentPlayer) {
+		document.querySelector("#currentPlayer").textContent = `${currentPlayer}'s turn`;
+	},
 
-	cellElement.appendChild(img);
-
-	// Change turns or end game
-	gameEndResult = hasGameEnded();
-
-	if (!gameEndResult.hasEnded) {
-		changeTurns();
-		document.querySelector('#currentPlayer').textContent = `${currentPlayer}'s turn`;
-	} else {
-		const divider = "--------------------------------------------------";
-		if (gameEndResult.isDraw) {
-			console.log(divider + "\n[GAME] Game has ended in a draw! No one wins.\n" + divider);
+	// Shows game end UI
+	gameEnded: function(result) {
+		if (result.isDraw) {
+			console.log("[GAME] Looks like it's a draw. How lame.");
+		} else if (result.winner === "AI") {
+			console.log("[GAME] You lost... wow I didn't think it was possible. Imagine losing to an AI... on EASY difficulty. I'm literally picking at random... and you lost... how embarrassing. You really should consider retiring, you're not cut out for the big leagues... or the little leagues... or any league actually. I would say better luck next time but I'd rather not play you again. You're a waste of my computing power.");
 		} else {
-			console.log(`${divider}\n[GAME] Game has ended! ${gameEndResult.winner} won!\n${divider}`);
+			console.log("[GAME] Welp, you won. Oh well.");
 		}
 	}
-}
-
-// Checks for if the game has ended and returns the result
-function hasGameEnded() {
-	const result = {
-		hasEnded: hasMatchInRow() || hasMatchInCol() || hasMatchInDiag(),
-		isDraw: false,
-		winner: null
-	};
-
-	if (result.hasEnded) {
-		result.winner = currentPlayer;
-	} else {
-		result.isDraw = isDraw();
-		result.hasEnded = result.isDraw;
-	}
-
-	return result;
-}
-
-// Checks for row match
-function hasMatchInRow() {
-	for (let i = 0; i < board.length; i++) {
-		if (
-			board[i][0].checkedBy !== null &&
-			board[i][0].checkedBy === board[i][1].checkedBy &&
-			board[i][1].checkedBy === board[i][2].checkedBy
-		) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-// Checks for column match
-function hasMatchInCol() {
-	for (let i = 0; i < board[0].length; i++) {
-		if (
-			board[0][i].checkedBy !== null &&
-			board[0][i].checkedBy === board[1][i].checkedBy &&
-			board[1][i].checkedBy === board[2][i].checkedBy
-		) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-// Checks for diagonal match
-function hasMatchInDiag() {
-	if (
-		board[0][0].checkedBy !== null &&
-		board[0][0].checkedBy === board[1][1].checkedBy &&
-		board[1][1].checkedBy === board[2][2].checkedBy
-	) {
-		return true;
-	}
-
-	if (
-		board[0][2].checkedBy !== null &&
-		board[0][2].checkedBy === board[1][1].checkedBy &&
-		board[1][1].checkedBy === board[2][0].checkedBy
-	) {
-		return true;
-	}
-
-	return false;
-}
-
-// Checks for draw
-function isDraw() {
-	for (let i = 0; i < board.length; i++) {
-		for (let j = 0; j < board[i].length; j++) {
-			if (board[i][j].checkedBy === null) {
-				return false;
-			}
-		}
-	}
-
-	return true;
 }
