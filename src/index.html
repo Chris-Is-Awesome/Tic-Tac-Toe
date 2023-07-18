@@ -6,11 +6,15 @@
 </head>
 
 <body>
-	<h1>TIC TAC TOE</h1>
+	<h1>
+		<span class="colorTextRed">TIC </span>
+		<span class="colorTextBlue">TAC </span>
+		<span class="colorTextRed">TOE</span>
+	</h1>
 	<div id="gameSetup">
 		<!-- Game description -->
 		<div class="emphasizedText">
-			<p>TODO: Overly witty description of game</p>
+			<p>Who tacked the tick into my toes?</p>
 		</div>
 		<!-- Options -->
 		<div id="options">
@@ -36,15 +40,12 @@
 		<div id="board">
 			<!-- This is generated at runtime -->
 		</div>
-		<!-- Summary -->
-		<div>
-			<h3 id="currentPlayer"></h3>
-			<p class="subtitle">TODO: Turn summary announced like an overly dramatic sports commentator</p>
-		</div>
+		<h3 id="currentPlayer"></h3>
 		<button type="submit" onclick="restartGame()">Restart</button>
 	</div>
 	<div id="gameOver">
-		<p>TODO</p>
+		<h3 id="gameEndResult"></h3>
+		<button type="submit" onclick="restartGame()">Restart</button>
 	</div>
 </body>
 

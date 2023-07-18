@@ -101,6 +101,14 @@ label {
 	font-style: italic;
 }
 
+.colorTextRed {
+	color: rgb(238, 81, 129);
+}
+
+.colorTextBlue {
+	color: rgb(37, 186, 235);
+}
+
 /* #endregion Classes */
 
 /* #region IDs */
