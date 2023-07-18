@@ -1,3 +1,4 @@
+import Debug from "./debug.js";
 import Game, { GameHelper } from './game.js';
 import circle from './assets/img/circle.png';
 import cross from './assets/img/cross.png';
@@ -80,7 +81,7 @@ export const UIHelper = {
 
 	// Marks the given cell as selected
 	selectCell: function(cell, selectedBy) {
-		console.log(`[GAME] Cell (${cell.row}, ${cell.col}) selected by ${selectedBy}!`);
+		Debug.log(`[GAME] Cell (${cell.row}, ${cell.col}) selected by ${selectedBy}!`);
 		cell.checkedBy = selectedBy;
 
 		// Show image
@@ -99,11 +100,11 @@ export const UIHelper = {
 	// Shows game end UI
 	gameEnded: function(result) {
 		if (result.isDraw) {
-			console.log("[GAME] Looks like it's a draw. How lame.");
+			Debug.log("[GAME] Looks like it's a draw. How lame.", true);
 		} else if (result.winner === "AI") {
-			console.log("[GAME] You lost... wow I didn't think it was possible. Imagine losing to an AI... on EASY difficulty. I'm literally picking at random... and you lost... how embarrassing. You really should consider retiring, you're not cut out for the big leagues... or the little leagues... or any league actually. I would say better luck next time but I'd rather not play you again. You're a waste of my computing power.");
+			Debug.log("[GAME] You lost... wow I didn't think it was possible. Imagine losing to an AI... on EASY difficulty. I'm literally picking at random... and you lost... how embarrassing. You really should consider retiring, you're not cut out for the big leagues... or the little leagues... or any league actually. I would say better luck next time but I'd rather not play you again. You're a waste of my computing power.", true);
 		} else {
-			console.log("[GAME] Welp, you won. Oh well.");
+			Debug.log("[GAME] Welp, you won. Oh well.", true);
 		}
 	}
 }

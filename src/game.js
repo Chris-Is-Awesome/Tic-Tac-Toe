@@ -1,3 +1,4 @@
+import Debug from "./debug.js";
 import { UIHelper } from './ui.js';
 
 export default class Game {
@@ -16,7 +17,7 @@ let turnResults;
 function startGame() {
 	currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer
 
-	console.log(`[GAME] Game started! Starting player: ${currentPlayer}`);
+	Debug.log(`[GAME] Game started! Starting player: ${currentPlayer}`, true);
 
 	UIHelper.playersChanged(currentPlayer);
 
