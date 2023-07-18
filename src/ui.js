@@ -35,7 +35,8 @@ function initializeUIAndGame() {
 	// Create options object
 	const options = {
 		startingPlayer: document.querySelector("#startingPlayer").value,
-		difficulty: document.querySelector("#aiDifficulty").value
+		difficulty: document.querySelector("#aiDifficulty").value,
+		fastAITurn: document.querySelector("#fastAITurn").checked
 	};
 
 	createBoard();

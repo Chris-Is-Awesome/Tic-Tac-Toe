@@ -64,7 +64,11 @@ function changeTurns() {
 }
 
 // Plays out the AI's turn
-function aiTurn() {
+async function aiTurn() {
+	if (!options.fastAITurn) {
+		await waitForSeconds(1000);
+	}
+
 	switch (options.difficulty) {
 		case "easy":
 			aiTurn_Easy();
@@ -206,6 +210,11 @@ function isDraw(board) {
 	}
 
 	return true;
+}
+
+// Waits for the specified time
+function waitForSeconds(milliseconds) {
+	return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
 export const GameHelper = {
