@@ -177,7 +177,7 @@ export const GameHelper = {
 	// Runs when a cell is clicked
 	cellClicked: function (cell) {
 		// If game has not ended and is player's turn
-		if (currentPlayer === "PLAYER" && (!turnResults || !turnResults.gameEnded)) {
+		if (currentPlayer === "PLAYER" && !cell.checkedBy && (!turnResults || !turnResults.gameEnded)) {
 			// Select the clicked cell
 			UIHelper.selectCell(cell, currentPlayer);
 			changeTurns();
