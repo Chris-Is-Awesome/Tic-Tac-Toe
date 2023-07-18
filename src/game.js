@@ -17,7 +17,14 @@ let turnResults;
 function startGame() {
 	currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer
 
-	Debug.log(`[GAME] Game started! Starting player: ${currentPlayer}`, true);
+	console.log("[GAME] Game started! Options:\n", options);
+
+	// Get random difficulty
+	if (options.difficulty === "random") {
+		const difficulties = document.querySelector("#aiDifficulty").options;
+		options.difficulty = difficulties[Math.floor((Math.random() * (difficulties.length - 1))) + 1].value;
+		Debug.log(`Random AI difficulty selected: ${options.difficulty.toUpperCase()}`);
+	}
 
 	UIHelper.playersChanged(currentPlayer);
 
@@ -58,7 +65,23 @@ function changeTurns() {
 
 // Plays out the AI's turn
 function aiTurn() {
-	aiTurn_Easy();
+	switch (options.difficulty) {
+		case "easy":
+			aiTurn_Easy();
+			break;
+		case "casual":
+			aiTurn_Casual();
+			break;
+		case "hard":
+			aiTurn_Hard();
+			break;
+		case "expert":
+			aiTurn_Expert();
+			break;
+		default:
+			Debug.log(`${options.difficulty} does not have a case!`);
+	}
+	
 	changeTurns();
 }
 
@@ -68,6 +91,18 @@ function aiTurn_Easy() {
 	const randCell = cells[Math.floor(Math.random() * cells.length)];
 
 	UIHelper.selectCell(randCell, "AI");
+}
+
+function aiTurn_Casual() {
+	Debug.log("TODO: AI turn for casual difficulty");
+}
+
+function aiTurn_Hard() {
+	Debug.log("TODO: AI turn for hard difficulty");
+}
+
+function aiTurn_Expert() {
+	Debug.log("TODO: AI turn for expert difficulty");
 }
 
 // Returns an array of all unchecked cells in the board

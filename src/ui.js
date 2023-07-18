@@ -34,7 +34,8 @@ let board;
 function initializeUIAndGame() {
 	// Create options object
 	const options = {
-		startingPlayer: document.getElementById('startingPlayer').value
+		startingPlayer: document.querySelector("#startingPlayer").value,
+		difficulty: document.querySelector("#aiDifficulty").value
 	};
 
 	createBoard();
@@ -95,7 +96,12 @@ export const UIHelper = {
 
 	// Updates current player UI
 	playersChanged: function(currentPlayer) {
-		document.querySelector("#currentPlayer").textContent = `${currentPlayer}'s turn`;
+		const currentPlayerElement = document.querySelector("#currentPlayer");
+		const currentPlayerImage = document.querySelector("#currentPlayerImg");
+		currentPlayerImage.setAttribute("src", currentPlayer === "AI" ? cross : circle);
+		currentPlayerImage.style = "position: relative; width: 4%; height: 4%; top: 15px;";
+		currentPlayerElement.textContent = currentPlayer;
+		currentPlayerElement.style.color = currentPlayer === "AI" ? "rgb(238, 81, 129)" : "rgb(37, 186, 235)";
 	},
 
 	// Shows game end UI

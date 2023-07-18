@@ -29,6 +29,17 @@
 						<option value="AI">AI</option>
 					</select>
 				</div>
+				<div class="flex-item">
+					<label for="aiDifficulty">AI Difficulty</label>
+					<br>
+					<select id="aiDifficulty">
+						<option value="random">Random</option>
+						<option value="easy">Easy</option>
+						<option value="casual">Casual</option>
+						<option value="hard">Hard</option>
+						<option value="expert">Expert</option>
+					</select>
+				</div>
 			</div>
 		</div>
 		<br>
@@ -40,7 +51,10 @@
 		<div id="board">
 			<!-- This is generated at runtime -->
 		</div>
-		<h3 id="currentPlayer"></h3>
+		<h3>
+			<img id="currentPlayerImg"></img>
+			<span id="currentPlayer"></span><span>'s turn</span>
+		</h3>
 		<button type="submit" onclick="restartGame()">Restart</button>
 	</div>
 	<div id="gameOver">
