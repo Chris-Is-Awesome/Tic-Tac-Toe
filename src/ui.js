@@ -13,9 +13,9 @@ export default class UI {
 		const board = document.querySelector("#board").innerHTML = "";
 
 		// Toggle options visibility
-		document.querySelector("#gameSetup").style.display = "block";
+		document.querySelector("#game-setup").style.display = "block";
 		document.querySelector("#gameplay").style.display = "none";
-		document.querySelector("#gameOver").style.display = "none";
+		document.querySelector("#game-end").style.display = "none";
 	}
 }
 
@@ -34,16 +34,16 @@ let board;
 function initializeUIAndGame() {
 	// Create options object
 	const options = {
-		startingPlayer: document.querySelector("#startingPlayer").value,
-		difficulty: document.querySelector("#aiDifficulty").value,
-		fastAITurn: document.querySelector("#fastAITurn").checked
+		startingPlayer: document.querySelector("#starting-player").value,
+		difficulty: document.querySelector("#ai-difficulty").value,
+		fastAITurn: document.querySelector("#fast-ai-turns").checked
 	};
 
 	createBoard();
 	new Game(options);
 
 	// Toggle visibility
-	document.querySelector("#gameSetup").style.display = "none";
+	document.querySelector("#game-setup").style.display = "none";
 	document.querySelector("#gameplay").style.display = "block";
 }
 
@@ -82,6 +82,20 @@ export const UIHelper = {
 		return board;
 	},
 
+	// Returns the element found via selector
+	getElement(selector) {
+		return document.querySelector(selector);
+	},
+
+	// Updates board cursor
+	updateCursor: function(cursor) {
+		const cells = Array.from(document.querySelectorAll(".board-cell"));
+
+		for (let i = 0; i < cells.length; i++) {
+			cells[i].style.cursor = cursor;
+		}
+	},
+
 	// Marks the given cell as selected
 	selectCell: function(cell, selectedBy) {
 		Debug.log(`[GAME] Cell (${cell.row}, ${cell.col}) selected by ${selectedBy}!`);
@@ -97,8 +111,8 @@ export const UIHelper = {
 
 	// Updates current player UI
 	playersChanged: function(currentPlayer) {
-		const currentPlayerElement = document.querySelector("#currentPlayer");
-		const currentPlayerImage = document.querySelector("#currentPlayerImg");
+		const currentPlayerElement = document.querySelector("#current-player");
+		const currentPlayerImage = document.querySelector("#current-player-img");
 		currentPlayerImage.setAttribute("src", currentPlayer === "AI" ? cross : circle);
 		currentPlayerImage.style = "position: relative; width: 4%; height: 4%; top: 15px;";
 		currentPlayerElement.textContent = currentPlayer;
@@ -108,8 +122,8 @@ export const UIHelper = {
 	// Shows game end UI
 	gameEnded: function(result) {
 		document.querySelector("#gameplay").style.display = "none";
-		document.querySelector("#gameOver").style.display = "block";
-		const gameEndDiv = document.querySelector("#gameEndResult");
+		document.querySelector("#game-end").style.display = "block";
+		const gameEndDiv = document.querySelector("#game-end-result");
 
 		if (result.isDraw) {
 			Debug.log("[GAME] Looks like it's a draw. How lame.", true);

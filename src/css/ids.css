@@ -1,0 +1,69 @@
+#gameplay, #game-end {
+	display: none;
+}
+
+#board {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+#options {
+	border: 2px solid var(--offWhite);
+	border-radius: 20px;
+	padding-bottom: 20px;
+	margin: 0 auto; /* Centers div */
+	width: 50%;
+}
+
+/******************/
+/***** CELLS *****/
+/****************/
+
+#board-cell-1_1 {
+	border-bottom: 1px solid var(--offWhite);
+	border-right: 1px solid var(--offWhite);
+}
+
+#board-cell-1_2 {
+	border-bottom: 1px solid var(--offWhite);
+	border-right: 1px solid var(--offWhite);
+	border-left: 1px solid var(--offWhite);
+}
+
+#board-cell-1_3 {
+	border-bottom: 1px solid var(--offWhite);
+	border-left: 1px solid var(--offWhite);
+}
+
+#board-cell-2_1 {
+	border-top: 1px solid var(--offWhite);
+	border-bottom: 1px solid var(--offWhite);
+	border-right: 1px solid var(--offWhite);
+}
+
+#board-cell-2_2 {
+	border: 1px solid var(--offWhite);
+}
+
+#board-cell-2_3 {
+	border-top: 1px solid var(--offWhite);
+	border-bottom: 1px solid var(--offWhite);
+	border-left: 1px solid var(--offWhite);
+}
+
+#board-cell-3_1 {
+	border-top: 1px solid var(--offWhite);
+	border-right: 1px solid var(--offWhite);
+}
+
+#board-cell-3_2 {
+	border-top: 1px solid var(--offWhite);
+	border-right: 1px solid var(--offWhite);
+	border-left: 1px solid var(--offWhite);
+}
+
+#board-cell-3_3 {
+	border-top: 1px solid var(--offWhite);
+	border-left: 1px solid var(--offWhite);
+}

@@ -1,0 +1,68 @@
+/******************/
+/***** FLEX ******/
+/****************/
+
+.flex-grid {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.flex-grid > .flex-item {
+	padding-right: 1em;
+}
+
+/******************/
+/***** BOARD *****/
+/****************/
+
+.board-row {
+	display: flex;
+}
+
+.board-cell {
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	height: 5em;
+	justify-content: center;
+	width: 5em;
+}
+
+.board-cell:focus {
+	outline: none; /* Disables Firefox outline of cell when selected */
+}
+
+.cell-image {
+	height: 80%;
+	width: 80%;
+}
+
+/******************/
+/***** TEXT ******/
+/****************/
+
+.color-red {
+	color: var(--lightRed);
+}
+
+.color-blue {
+	color: var(--lightBlue);
+}
+
+/******************/
+/*** BOOTSTRAP ***/
+/****************/
+
+.form-switch .form-check-input {
+	border-radius: 4rem;
+	margin-top: 25px;
+	height: 2rem;
+	width: calc(3rem + 0.75rem);
+}
+
+.form-check > label {
+	position: relative;
+	right: 55px;
+}

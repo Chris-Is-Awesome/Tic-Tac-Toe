@@ -7,52 +7,50 @@
 
 <body>
 	<h1>
-		<span class="colorTextRed">TIC </span>
-		<span class="colorTextBlue">TAC </span>
-		<span class="colorTextRed">TOE</span>
+		<span class="color-red">TIC </span>
+		<span class="color-blue">TAC </span>
+		<span class="color-red">TOE</span>
 	</h1>
-	<div id="gameSetup">
+	<div id="game-setup">
 		<!-- Game description -->
-		<div class="emphasizedText">
-			<p>Who tacked the tick into my toes?</p>
+		<div class="emphasized-text">
+			<p>Who tacked the tick on my toes?</p>
 		</div>
 		<!-- Options -->
 		<div id="options">
 			<h4>Game Options</h4>
 			<div class="flex-grid">
 				<div class="flex-item">
-					<label for="startingPlayer">Starting Player</label>
+					<label for="starting-player">Starting Player</label>
 					<br>
-					<select id="startingPlayer">
-						<option value="random">Random</option>
-						<option value="PLAYER">You</option>
-						<option value="AI">AI</option>
+					<select class="form-select" id="starting-player" aria-label="Starting player">
+						<option value="random" selected>Random</option>
+						<option value="player">You</option>
+						<option value="ai">AI</option>
 					</select>
 				</div>
 				<div class="flex-item">
-					<label for="aiDifficulty">AI Difficulty</label>
+					<label for="ai-difficulty">AI Difficulty</label>
 					<br>
-					<select id="aiDifficulty">
+					<select class="form-select" id="ai-difficulty" aria-label="AI difficulty">
 						<option value="random">Random</option>
-						<option value="easy">Easy</option>
+						<option value="easy" selected>Easy</option>
 						<option value="casual">Casual</option>
 						<option value="hard">Hard</option>
 						<option value="expert">Expert</option>
 					</select>
 				</div>
 				<div class="flex-item">
-					<label for="fastAITurn">Fast AI Turns</label>
-					<br>
-					<label class="toggle">
-						<input id="fastAITurn" type="checkbox">
-						<span class="slider round"></span>
-					</label>
+					<div class="form-check form-switch">
+						<label for="fast-ai-turns">Fast AI Turns</label>
+						<input class="form-check-input" type="checkbox" id="fast-ai-turns">
+					</div>
 				</div>
 			</div>
 		</div>
 		<br>
 		<!-- Below options -->
-		<button type="submit" onclick="setupGame()">Play!</button>
+		<button class="btn btn-outline-success" type="button" onclick="setupGame()">Play!</button>
 	</div>
 	<div id="gameplay">
 		<!-- Board -->
@@ -60,14 +58,14 @@
 			<!-- This is generated at runtime -->
 		</div>
 		<h3>
-			<img id="currentPlayerImg"></img>
-			<span id="currentPlayer"></span><span>'s turn</span>
+			<img id="current-player-img"></img>
+			<span id="current-player"></span><span>'s turn</span>
 		</h3>
-		<button type="submit" onclick="restartGame()">Restart</button>
+		<button class="btn btn-outline-danger" type="button" onclick="restartGame()">Restart</button>
 	</div>
-	<div id="gameOver">
-		<h3 id="gameEndResult"></h3>
-		<button type="submit" onclick="restartGame()">Restart</button>
+	<div id="game-end">
+		<h3 id="game-end-result"></h3>
+		<button class="btn btn-outline-success" type="button" onclick="restartGame()">Play again!</button>
 	</div>
 </body>
 

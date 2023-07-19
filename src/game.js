@@ -21,7 +21,7 @@ function startGame() {
 
 	// Get random difficulty
 	if (options.difficulty === "random") {
-		const difficulties = document.querySelector("#aiDifficulty").options;
+		const difficulties = UIHelper.getElement("#ai-difficulty").options;
 		options.difficulty = difficulties[Math.floor((Math.random() * (difficulties.length - 1))) + 1].value;
 		Debug.log(`Random AI difficulty selected: ${options.difficulty.toUpperCase()}`);
 	}
@@ -66,6 +66,7 @@ function changeTurns() {
 // Plays out the AI's turn
 async function aiTurn() {
 	if (!options.fastAITurn) {
+		UIHelper.updateCursor("wait");
 		await waitForSeconds(1000);
 	}
 
@@ -86,6 +87,7 @@ async function aiTurn() {
 			Debug.log(`${options.difficulty} does not have a case!`);
 	}
 	
+	UIHelper.updateCursor("pointer");
 	changeTurns();
 }
 
