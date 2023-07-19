@@ -51,6 +51,10 @@
 	color: var(--lightBlue);
 }
 
+.emphasized {
+	font-style: italic;
+}
+
 /******************/
 /*** BOOTSTRAP ***/
 /****************/
