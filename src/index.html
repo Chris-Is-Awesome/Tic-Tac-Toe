@@ -67,15 +67,12 @@
 		<div id="board">
 			<!-- This is generated at runtime -->
 		</div>
-		<h3>
+		<h3 id="current-player-info">
 			<img id="current-player-img"></img>
 			<span id="current-player"></span><span>'s turn</span>
 		</h3>
-		<button class="btn btn-outline-danger" type="button" onclick="restartGame()">Restart</button>
-	</div>
-	<div id="game-end">
 		<h3 id="game-end-result"></h3>
-		<button class="btn btn-outline-success" type="button" onclick="restartGame()">Play again!</button>
+		<button id="play-again-btn" class="btn btn-outline-danger" type="button" onclick="restartGame()">Restart</button>
 	</div>
 </body>
 
