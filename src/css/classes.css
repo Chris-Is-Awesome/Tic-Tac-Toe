@@ -60,13 +60,18 @@
 /****************/
 
 .form-switch .form-check-input {
+	border-color: var(--lightGray);
 	border-radius: 4rem;
-	margin-top: 25px;
 	height: 2rem;
+	margin-top: 25px;
 	width: calc(3rem + 0.75rem);
 }
 
 .form-check > label {
 	position: relative;
 	right: 55px;
+}
+
+.form-check-input:not(:checked) {
+	background-color: var(--gray);
 }
