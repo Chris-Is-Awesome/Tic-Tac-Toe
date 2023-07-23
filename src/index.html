@@ -14,7 +14,7 @@
 	<div id="game-setup">
 		<!-- Game description -->
 		<div class="emphasized">
-			<p>Who tacked the tick on my toes?</p>
+			<p>To be tic(kled) or tac(kled)... that is the question...</p>
 		</div>
 		<!-- Options -->
 		<div id="options">
@@ -41,6 +41,15 @@
 					</select>
 				</div>
 				<div class="flex-item">
+					<label for="board-size">Board Size</label>
+					<br>
+					<select class="form-select" id="board-size" aria-label="Board size">
+						<option value="3" selected>3x3</option>
+						<option value="4">4x4</option>
+						<option value="5">5x5</option>
+					</select>
+				</div>
+				<div class="flex-item">
 					<div class="form-check form-switch">
 						<label for="fast-ai-turns">Fast AI Turns</label>
 						<input class="form-check-input" type="checkbox" id="fast-ai-turns">
@@ -53,6 +62,7 @@
 		<button class="btn btn-outline-success" type="button" onclick="setupGame()">Play!</button>
 	</div>
 	<div id="gameplay">
+		<br>
 		<!-- Board -->
 		<div id="board">
 			<!-- This is generated at runtime -->

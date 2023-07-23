@@ -50,7 +50,7 @@ function initializeUIAndGame() {
 // Creates the game board
 function createBoard() {
 	const boardElement = document.querySelector('#board');
-	const boardSize = 3;
+	const boardSize = document.querySelector('#board-size').value;
 	board = new Array(boardSize);
 
 	for (let i = 0; i < boardSize; i++) {
@@ -65,6 +65,7 @@ function createBoard() {
 		for (let j = 0; j < boardSize; j++) {
 			const cell = document.createElement('div');
 			const cellObj = new Cell(cell, i + 1, j + 1);
+			createCellBorder(cellObj, boardSize);
 			cell.setAttribute("id", `board-cell-${i+1}_${j+1}`);
 			cell.setAttribute("class", "board-cell");
 			cell.onclick = function () {
@@ -74,6 +75,90 @@ function createBoard() {
 			row.appendChild(cell);
 		}
 	}
+}
+
+function createCellBorder(cellObj, boardSize) {
+	const cell = cellObj.element;
+	const row = cellObj.row;
+	const col = cellObj.col;
+	const border = "1px solid var(--offWhite)";
+
+	// If cell is on left side of board
+	if (col < 2) {
+		// If cell is top left corner of board
+		if (row < 2) {
+			cell.style = `
+				border-bottom: ${border};
+				border-right: ${border};`;
+		}
+
+		// If cell is bottom left corner of board
+		else if (row >= boardSize) {
+			cell.style = `
+				border-top: ${border};
+				border-right: ${border};`;
+		}
+
+		// If cell is in a middle spot on left side of board
+		else {
+			cell.style = `
+				border-top: ${border};
+				border-bottom: ${border};
+				border-right: ${border};`;
+		}
+
+		return;
+	}
+
+	// If cell is on right side of board
+	if (col >= boardSize) {
+		// If cell is top right corner of board
+		if (row < 2) {
+			cell.style = `
+			border-bottom: ${border};
+			border-left: ${border};`;
+		}
+
+		// If cell is bottom right corner of board
+		else if (row >= boardSize) {
+			cell.style = `
+			border-top: ${border};
+			border-left: ${border};`;
+		}
+
+		// If cell is in a middle spot on right side of board
+		else {
+			cell.style = `
+			border-top: ${border};
+			border-bottom: ${border};
+			border-left: ${border}`;
+		}
+
+		return;
+	}
+
+	// If cell is on top side of board (this is after corners are dealt with)
+	if (row < 2) {
+		cell.style = `
+		border-bottom: ${border};
+		border-right: ${border};
+		border-left: ${border};`;
+
+		return;
+	}
+
+	// If cell is on bottom side of board (this is after corners are dealth with)
+	if (row >= boardSize) {
+		cell.style = `
+		border-top: ${border};
+		border-right: ${border};
+		border-left: ${border};`;
+
+		return;
+	}
+
+	// If none of the above conditions are met, we know cell is in a middle spot
+	cell.style = `border: ${border};`;
 }
 
 export const UIHelper = {

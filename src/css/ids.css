@@ -16,54 +16,6 @@
 	width: 50%;
 }
 
-/******************/
-/***** CELLS *****/
-/****************/
-
-#board-cell-1_1 {
-	border-bottom: 1px solid var(--offWhite);
-	border-right: 1px solid var(--offWhite);
-}
-
-#board-cell-1_2 {
-	border-bottom: 1px solid var(--offWhite);
-	border-right: 1px solid var(--offWhite);
-	border-left: 1px solid var(--offWhite);
-}
-
-#board-cell-1_3 {
-	border-bottom: 1px solid var(--offWhite);
-	border-left: 1px solid var(--offWhite);
-}
-
-#board-cell-2_1 {
-	border-top: 1px solid var(--offWhite);
-	border-bottom: 1px solid var(--offWhite);
-	border-right: 1px solid var(--offWhite);
-}
-
-#board-cell-2_2 {
-	border: 1px solid var(--offWhite);
-}
-
-#board-cell-2_3 {
-	border-top: 1px solid var(--offWhite);
-	border-bottom: 1px solid var(--offWhite);
-	border-left: 1px solid var(--offWhite);
-}
-
-#board-cell-3_1 {
-	border-top: 1px solid var(--offWhite);
-	border-right: 1px solid var(--offWhite);
-}
-
-#board-cell-3_2 {
-	border-top: 1px solid var(--offWhite);
-	border-right: 1px solid var(--offWhite);
-	border-left: 1px solid var(--offWhite);
-}
-
-#board-cell-3_3 {
-	border-top: 1px solid var(--offWhite);
-	border-left: 1px solid var(--offWhite);
+#current-player-img {
+	margin-bottom: 35px;
 }
