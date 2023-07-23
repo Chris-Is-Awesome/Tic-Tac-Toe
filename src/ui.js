@@ -127,15 +127,15 @@ export const UIHelper = {
 
 		if (result.isDraw) {
 			Debug.log("[GAME] Looks like it's a draw. How lame.", true);
-			gameEndDiv.textContent = "That's a draw!";
+			gameEndDiv.textContent = "No toes were tic(kled) or tac(kled).";
 			gameEndDiv.style.color = "#7a7878";
 		} else if (result.winner === "AI") {
 			Debug.log("[GAME] You lost... wow I didn't think it was possible. Imagine losing to an AI... on EASY difficulty. I'm literally picking at random... and you lost... how embarrassing. You really should consider retiring, you're not cut out for the big leagues... or the little leagues... or any league actually. I would say better luck next time but I'd rather not play you again. You're a waste of my computing power.", true);
-			gameEndDiv.textContent = "Oh nosies! Looks like you lost!";
+			gameEndDiv.textContent = "You tac(kled) your last toe...";
 			gameEndDiv.style.color = "#ff5959";
 		} else {
 			Debug.log("[GAME] Welp, you won. Oh well.", true);
-			gameEndDiv.textContent = "You won!!1!!!!";
+			gameEndDiv.textContent = "You tic(kled) the toe!";
 			gameEndDiv.style.color = "#93f57a";
 		}
 	}
