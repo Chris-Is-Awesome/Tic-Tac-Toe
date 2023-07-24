@@ -221,6 +221,11 @@ export const UIHelper = {
 			gameEndInfo.textContent = "You tac(kled) your last toe...";
 			gameEndInfo.style.color = "#ff5959";
 
+			// Color all cells in winner's color
+			for (let i = 0; i < board.length; i++) {
+				board[i].element.style = "border: 2.5px solid var(--lightRed);";
+			}
+
 			// Highlight matching cells
 			for (let i = 0; i < result.matchingCells.length; i++) {
 				const cell = result.matchingCells[i];
@@ -229,6 +234,11 @@ export const UIHelper = {
 		} else {
 			gameEndInfo.textContent = "You tic(kled) the toe!";
 			gameEndInfo.style.color = "#93f57a";
+
+			// Color all cells in winner's color
+			for (let i = 0; i < board.length; i++) {
+				board[i].element.style = "border: 2.5px solid var(--lightBlue);";
+			}
 
 			// Highlight matching cells
 			for (let i = 0; i < result.matchingCells.length; i++) {
