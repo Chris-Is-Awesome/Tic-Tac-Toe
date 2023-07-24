@@ -220,9 +220,21 @@ export const UIHelper = {
 		} else if (result.winner === "AI") {
 			gameEndInfo.textContent = "You tac(kled) your last toe...";
 			gameEndInfo.style.color = "#ff5959";
+
+			// Highlight matching cells
+			for (let i = 0; i < result.matchingCells.length; i++) {
+				const cell = result.matchingCells[i];
+				cell.element.style = "border: 7.5px solid var(--lightRed);";
+			}
 		} else {
 			gameEndInfo.textContent = "You tic(kled) the toe!";
 			gameEndInfo.style.color = "#93f57a";
+
+			// Highlight matching cells
+			for (let i = 0; i < result.matchingCells.length; i++) {
+				const cell = result.matchingCells[i];
+				cell.element.style = "border: 7.5px solid var(--lightBlue);";
+			}
 		}
 	}
 }

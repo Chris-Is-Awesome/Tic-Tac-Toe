@@ -119,19 +119,31 @@ function getUncheckedBoardCells() {
 
 // Checks for if the game has ended and returns the result
 function turnEnded(selectedCell) {
-	board = UIHelper.getBoard();
+	const board = UIHelper.getBoard();
+	const rowMatch = hasMatchInRow(board, selectedCell.row);
+	const colMatch = hasMatchInCol(board, selectedCell.col);
+	const diagMatch = hasMatchInDiag(board);
 
 	const result = {
 		gameEnded: 
-			hasMatchInRow(board, selectedCell.row) ||
-			hasMatchInCol(board, selectedCell.col) ||
-			hasMatchInDiag(board),
+			rowMatch.length > 0 ||
+			colMatch.length > 0 ||
+			diagMatch.length > 0,
 		isDraw: false,
-		winner: null
+		winner: null,
+		matchingCells: []
 	};
 
 	if (result.gameEnded) {
 		result.winner = currentPlayer;
+		
+		if (rowMatch.length > 0) {
+			result.matchingCells = rowMatch;
+		} else if (colMatch.length > 0) {
+			result.matchingCells = colMatch;
+		} else {
+			result.matchingCells = diagMatch;
+		}
 	} else {
 		result.isDraw = isDraw(board);
 		result.gameEnded = result.isDraw;
@@ -143,20 +155,29 @@ function turnEnded(selectedCell) {
 
 // Checks for row match
 function hasMatchInRow(board, row) {
-	const matches = board.filter(cell => cell.row === row && cell.checkedBy === currentPlayer);
-	return matches != null && matches.length >= clamp(UIHelper.getBoardSize(), 3, 5);
+	let matches = board.filter(cell => cell.row === row && cell.checkedBy === currentPlayer);
+
+	if (matches != null && matches.length < clamp(UIHelper.getBoardSize(), 3, 5)) {
+		matches = [];
+	}
+	return matches;
 }
 
 // Checks for column match
 function hasMatchInCol(board, col) {
-	const matches = board.filter(cell => cell.col === col && cell.checkedBy === currentPlayer);
-	return matches != null && matches.length >= clamp(UIHelper.getBoardSize(), 3, 5);
+	let matches = board.filter(cell => cell.col === col && cell.checkedBy === currentPlayer);
+
+	if (matches != null && matches.length < clamp(UIHelper.getBoardSize(), 3, 5)) {
+		matches = [];
+	}
+
+	return matches;
 }
 
 // Checks for diagonal match
 function hasMatchInDiag(board) {
 	const boardSize = parseInt(UIHelper.getBoardSize());
-	const matches = [];
+	let matches = [];
 	let matchesInARow = 0;
 
 	// Going top left to bottom right
@@ -170,7 +191,7 @@ function hasMatchInDiag(board) {
 	}
 
 	if (matchesInARow >= clamp(boardSize, 3, 5)) {
-		return true;
+		return matches;
 	} else {
 		matchesInARow = 0;
 	}
@@ -185,7 +206,11 @@ function hasMatchInDiag(board) {
 		}
 	}
 
-	return matchesInARow >= clamp(boardSize, 3, 5);
+	if (matchesInARow < clamp(boardSize, 3, 5)) {
+		matches = [];
+	}
+
+	return matches;
 }
 
 // Checks for draw
