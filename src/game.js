@@ -4,14 +4,14 @@ import { UIHelper } from './ui.js';
 export default class Game {
 	constructor(optionsObj) {
 		options = optionsObj;
-		turnResults = null;
+		turnResult = null;
 		startGame();
 	}
 }
 
 let options;
 let currentPlayer;
-let turnResults;
+let turnResult;
 
 // Start of the game (after UI initialization)
 function startGame() {
@@ -44,11 +44,10 @@ function getRandomStartingPlayer() {
 
 // Swaps the players' turns, or ends the game
 function changeTurns() {
-	turnResults = getTurnResults();
-
 	// If game has not ended, switch turns
-	if (!turnResults.gameEnded) {
+	if (!turnResult.gameEnded) {
 		currentPlayer = currentPlayer === "AI" ? "PLAYER" : "AI";
+		currentPlayer == "PLAYER";
 		UIHelper.playersChanged(currentPlayer);
 
 		if (currentPlayer === "AI") {
@@ -57,7 +56,7 @@ function changeTurns() {
 	}
 	// If game has ended, show game end UI
 	else {
-		UIHelper.gameEnded(turnResults);
+		UIHelper.gameEnded(turnResult);
 	}
 }
 
@@ -68,33 +67,37 @@ async function aiTurn() {
 		await waitForSeconds(1000);
 	}
 
+	let selectedCell;
+
 	switch (options.difficulty) {
 		case "easy":
-			aiTurn_Easy();
+			selectedCell = aiTurn_Easy();
 			break;
 		case "casual":
-			aiTurn_Casual();
+			selectedCell = aiTurn_Casual();
 			break;
 		case "hard":
-			aiTurn_Hard();
+			selectedCell = aiTurn_Hard();
 			break;
 		case "expert":
-			aiTurn_Expert();
+			selectedCell = aiTurn_Expert();
 			break;
 		default:
 			Debug.log(`${options.difficulty} does not have a case!`);
 	}
 	
+	if (selectedCell) {
+		UIHelper.selectCell(selectedCell, "AI");
+		turnEnded(selectedCell);
+	}
+
 	UIHelper.updateCursor("pointer");
-	changeTurns();
 }
 
 // Selects a random cell
 function aiTurn_Easy() {
 	const cells = getUncheckedBoardCells();
-	const randCell = cells[Math.floor(Math.random() * cells.length)];
-
-	UIHelper.selectCell(randCell, "AI");
+	return cells[Math.floor(Math.random() * cells.length)];
 }
 
 function aiTurn_Casual() {
@@ -111,29 +114,18 @@ function aiTurn_Expert() {
 
 // Returns an array of all unchecked cells in the board
 function getUncheckedBoardCells() {
-	const board = UIHelper.getBoard();
-	let uncheckedCells = [];
-
-	for (let i = 0; i < board.length; i++) {
-		const row = board[i];
-		for (let col in row) {
-			const cell = row[col];
-			
-			if (!cell.checkedBy) {
-				uncheckedCells.push(cell);
-			}
-		}
-	}
-
-	return uncheckedCells;
+	return UIHelper.getBoard().filter(cell => !cell.checkedBy);
 }
 
 // Checks for if the game has ended and returns the result
-function getTurnResults() {
+function turnEnded(selectedCell) {
 	board = UIHelper.getBoard();
 
 	const result = {
-		gameEnded: hasMatchInRow(board) || hasMatchInCol(board) || hasMatchInDiag(board),
+		gameEnded: 
+			hasMatchInRow(board, selectedCell.row) ||
+			hasMatchInCol(board, selectedCell.col) ||
+			hasMatchInDiag(board),
 		isDraw: false,
 		winner: null
 	};
@@ -145,69 +137,60 @@ function getTurnResults() {
 		result.gameEnded = result.isDraw;
 	}
 
-	return result;
+	turnResult = result;
+	changeTurns();
 }
 
 // Checks for row match
-function hasMatchInRow(board) {
-	for (let i = 0; i < board.length; i++) {
-		const matches = board[i].filter(cell => cell.checkedBy === currentPlayer);
-
-		if (matches != null && matches.length >= clamp(board.length, 3, 5)) {
-			return true;
-		}
-	}
-
-	return false;
+function hasMatchInRow(board, row) {
+	const matches = board.filter(cell => cell.row === row && cell.checkedBy === currentPlayer);
+	return matches != null && matches.length >= clamp(UIHelper.getBoardSize(), 3, 5);
 }
 
 // Checks for column match
-function hasMatchInCol(board) {
-	for (let i = 0; i < board[0].length; i++) {
-		if (
-			board[0][i].checkedBy !== null &&
-			board[0][i].checkedBy === board[1][i].checkedBy &&
-			board[1][i].checkedBy === board[2][i].checkedBy
-		) {
-			return true;
-		}
-	}
-
-	return false;
+function hasMatchInCol(board, col) {
+	const matches = board.filter(cell => cell.col === col && cell.checkedBy === currentPlayer);
+	return matches != null && matches.length >= clamp(UIHelper.getBoardSize(), 3, 5);
 }
 
 // Checks for diagonal match
 function hasMatchInDiag(board) {
-	if (
-		board[0][0].checkedBy !== null &&
-		board[0][0].checkedBy === board[1][1].checkedBy &&
-		board[1][1].checkedBy === board[2][2].checkedBy
-	) {
-		return true;
+	const boardSize = parseInt(UIHelper.getBoardSize());
+	const matches = [];
+	let matchesInARow = 0;
+
+	// Going top left to bottom right
+	for (let i = 0; i < boardSize; i++) {
+		const cell = board[(boardSize + 1) * i];
+
+		if (cell && cell.checkedBy === currentPlayer) {
+			matches.push(cell);
+			matchesInARow++;
+		}
 	}
 
-	if (
-		board[0][2].checkedBy !== null &&
-		board[0][2].checkedBy === board[1][1].checkedBy &&
-		board[1][1].checkedBy === board[2][0].checkedBy
-	) {
+	if (matchesInARow >= clamp(boardSize, 3, 5)) {
 		return true;
+	} else {
+		matchesInARow = 0;
 	}
 
-	return false;
+	// Going top right to bottom left
+	for (let i = 1; i < boardSize + 1; i++) {
+		const cell = board[(boardSize - 1) * i];
+
+		if (cell && cell.checkedBy === currentPlayer) {
+			matches.push(cell);
+			matchesInARow++;
+		}
+	}
+
+	return matchesInARow >= clamp(boardSize, 3, 5);
 }
 
 // Checks for draw
 function isDraw(board) {
-	for (let i = 0; i < board.length; i++) {
-		for (let j = 0; j < board[i].length; j++) {
-			if (board[i][j].checkedBy === null) {
-				return false;
-			}
-		}
-	}
-
-	return true;
+	return board.every(cell => cell.checkedBy);
 }
 
 // Waits for the specified time
@@ -223,10 +206,10 @@ export const GameHelper = {
 	// Runs when a cell is clicked
 	cellClicked: function (cell) {
 		// If game has not ended and is player's turn
-		if (currentPlayer === "PLAYER" && !cell.checkedBy && (!turnResults || !turnResults.gameEnded)) {
+		if (currentPlayer === "PLAYER" && !cell.checkedBy && (!turnResult || !turnResult.gameEnded)) {
 			// Select the clicked cell
 			UIHelper.selectCell(cell, currentPlayer);
-			changeTurns();
+			turnEnded(cell);
 		}
 	}
 }

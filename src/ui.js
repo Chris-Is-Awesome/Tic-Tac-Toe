@@ -53,13 +53,9 @@ function initializeUIAndGame() {
 function createBoard() {
 	const boardElement = document.querySelector('#board');
 	const boardSize = document.querySelector('#board-size').value;
-	board = new Array(boardSize);
+	board = [];
 
 	for (let i = 0; i < boardSize; i++) {
-		board[i] = new Array(boardSize);
-	}
-
-	for (let i = 0; i < board.length; i++) {
 		const row = document.createElement('div');
 		row.setAttribute("class", "board-row");
 		boardElement.appendChild(row);
@@ -73,7 +69,7 @@ function createBoard() {
 			cell.onclick = function () {
 				GameHelper.cellClicked(cellObj);
 			};
-			board[i][j] = cellObj;
+			board.push(cellObj);
 			row.appendChild(cell);
 		}
 	}
@@ -167,6 +163,11 @@ export const UIHelper = {
 	// Returns the board (GET only accessor)
 	getBoard: function () {
 		return board;
+	},
+
+	// Returns the board size (GET only accessor)
+	getBoardSize: function() {
+		return document.querySelector('#board-size').value;
 	},
 
 	// Returns the element found via selector
