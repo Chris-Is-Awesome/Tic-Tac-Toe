@@ -18,6 +18,10 @@ document.addEventListener('keydown', function(e) {
 	if (e.key === 'p' && !isInitialized) {
 		setupGame();
 	}
+
+	if (e.key === 'p' && isInitialized) {
+		debugger;
+	}
 })
 
 function setupGame() {

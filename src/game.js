@@ -47,7 +47,6 @@ function changeTurns() {
 	// If game has not ended, switch turns
 	if (!turnResult.gameEnded) {
 		currentPlayer = currentPlayer === "AI" ? "PLAYER" : "AI";
-		currentPlayer == "PLAYER";
 		UIHelper.playersChanged(currentPlayer);
 
 		if (currentPlayer === "AI") {
@@ -154,20 +153,53 @@ function turnEnded(selectedCell) {
 
 // Checks for row match
 function hasMatchInRow(board, row) {
-	let matches = board.filter(cell => cell.row === row && cell.checkedBy === currentPlayer);
+	const matchesRequired = clamp(UIHelper.getBoardSize(), 3, 5);
+	let markedCells = board.filter(cell => cell.row === row && cell.checkedBy === currentPlayer);
+	let matches = [];
 
-	if (matches != null && matches.length < clamp(UIHelper.getBoardSize(), 3, 5)) {
-		matches = [];
+	if (markedCells != null) {
+		for (let i = 0; i < markedCells.length; i++) {
+			if (i > 0 && matches.length < matchesRequired && markedCells[i].col - 1 != markedCells[i-1].col) {
+				matches = [];
+			}
+
+			if (matches.length >= matchesRequired) {
+				break;
+			}
+
+			matches.push(markedCells[i]);
+		}
+
+		if (matches.length < matchesRequired) {
+			matches = [];
+		}
 	}
+
 	return matches;
 }
 
 // Checks for column match
 function hasMatchInCol(board, col) {
-	let matches = board.filter(cell => cell.col === col && cell.checkedBy === currentPlayer);
+	const matchesRequired = clamp(UIHelper.getBoardSize(), 3, 5);
+	let markedCells = board.filter(cell => cell.col === col && cell.checkedBy === currentPlayer);
+	let matches = [];
 
-	if (matches != null && matches.length < clamp(UIHelper.getBoardSize(), 3, 5)) {
-		matches = [];
+	if (markedCells != null) {
+		for (let i = 0; i < markedCells.length; i++) {
+			if (i > 0 && matches.length < matchesRequired && markedCells[i].row - 1 != markedCells[i-1].row) {
+				matches = [];
+			}
+
+			if (matches.length >= matchesRequired) {
+				break;
+			}
+
+			matches.push(markedCells[i]);
+		}
+
+		if (matches.length < matchesRequired) {
+			matches = [];
+		}
 	}
 
 	return matches;
@@ -176,36 +208,51 @@ function hasMatchInCol(board, col) {
 // Checks for diagonal match
 function hasMatchInDiag(board) {
 	const boardSize = parseInt(UIHelper.getBoardSize());
+	const matchesRequired = clamp(boardSize, 3, 5);
 	let matches = [];
-	let matchesInARow = 0;
 
 	// Going top left to bottom right
-	for (let i = 0; i < boardSize; i++) {
+	for (let i = 0; i < boardSize; i++) { 
 		const cell = board[(boardSize + 1) * i];
 
-		if (cell && cell.checkedBy === currentPlayer) {
+		// If cell was checked by current player, it's a match
+		if (cell.checkedBy === currentPlayer) {
 			matches.push(cell);
-			matchesInARow++;
+		// If cell is empty while there are not enough matches and cell, reset matches
+		} else if (matches.length > 0 && matches.length < matchesRequired) {
+			matches = [];
+		// If cell empty after required number of matches has been met, end loop
+		} else if (matches.length >= matchesRequired) {
+			break;
 		}
 	}
 
-	if (matchesInARow >= clamp(boardSize, 3, 5)) {
-		return matches;
+	// If the required number of matches has not been met, reset matches before changing diagonal direction
+	if (matches.length < matchesRequired) {
+		matches = [];
+	// If the required number of matches has been met, return matches
 	} else {
-		matchesInARow = 0;
+		return matches;
 	}
 
 	// Going top right to bottom left
 	for (let i = 1; i < boardSize + 1; i++) {
 		const cell = board[(boardSize - 1) * i];
 
-		if (cell && cell.checkedBy === currentPlayer) {
+		// If cell was checked by current player, it's a match
+		if (cell.checkedBy === currentPlayer) {
 			matches.push(cell);
-			matchesInARow++;
+			// If cell is empty while there are not enough matches and cell, reset matches
+		} else if (matches.length > 0 && matches.length < matchesRequired) {
+			matches = [];
+			// If cell empty after required number of matches has been met, end loop
+		} else if (matches.length >= 5) {
+			break;
 		}
 	}
 
-	if (matchesInARow < clamp(boardSize, 3, 5)) {
+	// If the required number of matches has not been met, reset matches before changing diagonal direction
+	if (matches.length < matchesRequired) {
 		matches = [];
 	}
 
