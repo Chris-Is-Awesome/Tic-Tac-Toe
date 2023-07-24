@@ -88,10 +88,9 @@ async function aiTurn() {
 	
 	if (selectedCell) {
 		UIHelper.selectCell(selectedCell, "AI");
+		UIHelper.updateCursor("pointer");
 		turnEnded(selectedCell);
 	}
-
-	UIHelper.updateCursor("pointer");
 }
 
 // Selects a random cell

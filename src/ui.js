@@ -1,4 +1,3 @@
-import Debug from "./debug.js";
 import Game, { GameHelper } from './game.js';
 import circle from './assets/img/circle.png';
 import cross from './assets/img/cross.png';
@@ -177,11 +176,11 @@ export const UIHelper = {
 
 	// Updates board cursor
 	updateCursor: function(cursor) {
-		const cells = Array.from(document.querySelectorAll(".board-cell"));
-
-		for (let i = 0; i < cells.length; i++) {
-			cells[i].style.cursor = cursor;
+		for (let i = 0; i < board.length; i++) {
+			board[i].element.style.cursor = cursor;
 		}
+
+		console.log(cursor);
 	},
 
 	// Marks the given cell as selected
@@ -213,6 +212,7 @@ export const UIHelper = {
 		document.querySelector('#current-player-info').style.display = "none";
 		playAgainBtn.setAttribute('class', "btn btn-outline-success");
 		playAgainBtn.textContent = "Play again";
+
 
 		if (result.isDraw) {
 			gameEndInfo.textContent = "No toes were tic(kled) or tac(kled).";
@@ -246,5 +246,7 @@ export const UIHelper = {
 				cell.element.style = "border: 7.5px solid var(--lightBlue);";
 			}
 		}
+
+		this.updateCursor("not-allowed");
 	}
 }
