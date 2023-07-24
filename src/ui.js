@@ -11,7 +11,7 @@ export default class UI {
 		const playAgainBtn = document.querySelector("#play-again-btn");
 
 		playAgainBtn.setAttribute('class', "btn btn-outline-danger");
-		playAgainBtn.textContent = "Restart";
+		playAgainBtn.textContent = "Restart (r)";
 		document.querySelector("#board").innerHTML = "";
 		document.querySelector("#game-setup").style.display = "block";
 		document.querySelector("#gameplay").style.display = "none";
@@ -179,8 +179,6 @@ export const UIHelper = {
 		for (let i = 0; i < board.length; i++) {
 			board[i].element.style.cursor = cursor;
 		}
-
-		console.log(cursor);
 	},
 
 	// Marks the given cell as selected
@@ -211,7 +209,7 @@ export const UIHelper = {
 		const playAgainBtn = document.querySelector("#play-again-btn");
 		document.querySelector('#current-player-info').style.display = "none";
 		playAgainBtn.setAttribute('class', "btn btn-outline-success");
-		playAgainBtn.textContent = "Play again";
+		playAgainBtn.textContent = "Play again (r)";
 
 
 		if (result.isDraw) {

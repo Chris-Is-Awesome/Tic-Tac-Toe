@@ -7,13 +7,27 @@ import './css/classes.css';
 import './css/ids.css';
 
 let ui;
+let isInitialized = false;
+
+// Listen for key inputs
+document.addEventListener('keydown', function(e) {
+	if (e.key === 'r' && isInitialized) {
+		restartGame();
+	}
+	
+	if (e.key === 'p' && !isInitialized) {
+		setupGame();
+	}
+})
 
 function setupGame() {
 	ui = new UI();
+	isInitialized = true;
 }
 
 function restartGame() {
 	ui.resetGameUI();
+	isInitialized = false;
 }
 
 window.setupGame = setupGame;
