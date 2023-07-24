@@ -15,7 +15,7 @@ let turnResult;
 
 // Start of the game (after UI initialization)
 function startGame() {
-	currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer
+	currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer.toUpperCase();
 
 	// Get random difficulty
 	if (options.difficulty === "random") {
