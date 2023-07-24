@@ -17,8 +17,6 @@ let turnResults;
 function startGame() {
 	currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer
 
-	console.log("[GAME] Game started! Options:\n", options);
-
 	// Get random difficulty
 	if (options.difficulty === "random") {
 		const difficulties = UIHelper.getElement("#ai-difficulty").options;
@@ -153,11 +151,9 @@ function getTurnResults() {
 // Checks for row match
 function hasMatchInRow(board) {
 	for (let i = 0; i < board.length; i++) {
-		if (
-			board[i][0].checkedBy !== null &&
-			board[i][0].checkedBy === board[i][1].checkedBy &&
-			board[i][1].checkedBy === board[i][2].checkedBy
-		) {
+		const matches = board[i].filter(cell => cell.checkedBy === currentPlayer);
+
+		if (matches != null && matches.length >= clamp(board.length, 3, 5)) {
 			return true;
 		}
 	}
@@ -217,6 +213,10 @@ function isDraw(board) {
 // Waits for the specified time
 function waitForSeconds(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+function clamp(number, min, max) {
+	return Math.max(min, Math.min(number, max));
 }
 
 export const GameHelper = {

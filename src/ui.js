@@ -185,7 +185,6 @@ export const UIHelper = {
 
 	// Marks the given cell as selected
 	selectCell: function(cell, selectedBy) {
-		Debug.log(`[GAME] Cell (${cell.row}, ${cell.col}) selected by ${selectedBy}!`);
 		cell.checkedBy = selectedBy;
 
 		// Show image
@@ -215,15 +214,12 @@ export const UIHelper = {
 		playAgainBtn.textContent = "Play again";
 
 		if (result.isDraw) {
-			Debug.log("[GAME] Looks like it's a draw. How lame.", true);
 			gameEndInfo.textContent = "No toes were tic(kled) or tac(kled).";
 			gameEndInfo.style.color = "#7a7878";
 		} else if (result.winner === "AI") {
-			Debug.log("[GAME] You lost... wow I didn't think it was possible. Imagine losing to an AI... on EASY difficulty. I'm literally picking at random... and you lost... how embarrassing. You really should consider retiring, you're not cut out for the big leagues... or the little leagues... or any league actually. I would say better luck next time but I'd rather not play you again. You're a waste of my computing power.", true);
 			gameEndInfo.textContent = "You tac(kled) your last toe...";
 			gameEndInfo.style.color = "#ff5959";
 		} else {
-			Debug.log("[GAME] Welp, you won. Oh well.", true);
 			gameEndInfo.textContent = "You tic(kled) the toe!";
 			gameEndInfo.style.color = "#93f57a";
 		}
