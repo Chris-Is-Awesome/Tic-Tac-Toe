@@ -1,4 +1,3 @@
-import Debug from "./debug.js";
 import { UIHelper } from './ui.js';
 
 export default class Game {
@@ -16,13 +15,6 @@ let turnResult;
 // Start of the game (after UI initialization)
 function startGame() {
 	currentPlayer = options.startingPlayer === "random" ? getRandomStartingPlayer() : options.startingPlayer.toUpperCase();
-
-	// Get random difficulty
-	if (options.difficulty === "random") {
-		const difficulties = UIHelper.getElement("#ai-difficulty").options;
-		options.difficulty = difficulties[Math.floor((Math.random() * (difficulties.length - 1))) + 1].value;
-		Debug.log(`Random AI difficulty selected: ${options.difficulty.toUpperCase()}`);
-	}
 
 	UIHelper.playersChanged(currentPlayer);
 
@@ -66,48 +58,12 @@ async function aiTurn() {
 		await waitForSeconds(1000);
 	}
 
-	let selectedCell;
-
-	switch (options.difficulty) {
-		case "easy":
-			selectedCell = aiTurn_Easy();
-			break;
-		case "casual":
-			selectedCell = aiTurn_Casual();
-			break;
-		case "hard":
-			selectedCell = aiTurn_Hard();
-			break;
-		case "expert":
-			selectedCell = aiTurn_Expert();
-			break;
-		default:
-			Debug.log(`${options.difficulty} does not have a case!`);
-	}
-	
-	if (selectedCell) {
-		UIHelper.selectCell(selectedCell, "AI");
-		UIHelper.updateCursor("pointer");
-		turnEnded(selectedCell);
-	}
-}
-
-// Selects a random cell
-function aiTurn_Easy() {
 	const cells = getUncheckedBoardCells();
-	return cells[Math.floor(Math.random() * cells.length)];
-}
+	const selectedCell = cells[Math.floor(Math.random() * cells.length)];
 
-function aiTurn_Casual() {
-	Debug.log("TODO: AI turn for casual difficulty");
-}
-
-function aiTurn_Hard() {
-	Debug.log("TODO: AI turn for hard difficulty");
-}
-
-function aiTurn_Expert() {
-	Debug.log("TODO: AI turn for expert difficulty");
+	UIHelper.selectCell(selectedCell, "AI");
+	UIHelper.updateCursor("pointer");
+	turnEnded(selectedCell);
 }
 
 // Returns an array of all unchecked cells in the board
