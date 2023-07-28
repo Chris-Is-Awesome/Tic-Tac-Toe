@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Tic Tac Toe</title>
+</head>
+
+<body>
+	<h1>
+		<span class="color-blue">TIC </span>
+		<span class="color-red">TAC </span>
+		<span class="color-blue">TOE</span>
+	</h1>
+	<div id="game-setup">
+		<!-- Game description -->
+		<div class="emphasized">
+			<p>To be tic(kled) or tac(kled)... that is the question...</p>
+		</div>
+		<!-- Options -->
+		<div id="options">
+			<h4>Game Options</h4>
+			<div class="flex-grid">
+				<div class="flex-item">
+					<label for="starting-player">Starting Player</label>
+					<br>
+					<select class="form-select" id="starting-player" aria-label="Starting player">
+						<option value="random" selected>Random</option>
+						<option value="player">You</option>
+						<option value="ai">AI</option>
+					</select>
+				</div>
+				<div class="flex-item">
+					<label for="board-size">Board Size</label>
+					<br>
+					<select class="form-select" id="board-size" aria-label="Board size">
+						<option value="3" selected>3x3</option>
+						<option value="4">4x4</option>
+						<option value="5">5x5</option>
+						<option value="6">6x6</option>
+						<option value="7">7x7</option>
+						<option value="8">8x8</option>
+						<option value="9">9x9</option>
+						<option value="10">10x10</option>
+					</select>
+				</div>
+				<div class="flex-item">
+					<div class="form-check form-switch">
+						<label for="fast-ai-turns">Fast AI Turns</label>
+						<input class="form-check-input" type="checkbox" id="fast-ai-turns">
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<!-- Below options -->
+		<button class="btn btn-outline-success" type="button" onclick="setupGame()">Play! (p)</button>
+	</div>
+	<div id="gameplay">
+		<br>
+		<!-- Board -->
+		<div id="board">
+			<!-- This is generated at runtime -->
+		</div>
+		<h3 id="current-player-info">
+			<img id="current-player-img"></img>
+			<span id="current-player"></span><span>'s turn</span>
+		</h3>
+		<h3 id="game-end-result"></h3>
+		<button id="play-again-btn" class="btn btn-outline-danger" type="button" onclick="restartGame()">Restart (r)</button>
+	</div>
+<script src="bundle.js"></script></body>
+
+</html>
